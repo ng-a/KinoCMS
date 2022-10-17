@@ -1,0 +1,127 @@
+<form th:fragment = "form" id = "registrationForm" class="row m-0 p-0 needs-validation my-4" action="/registration" method="post">
+  <div class="col">
+    <div class="row justify-content-center">
+      <label for="name" class="col-4 col-form-label">Имя</label>
+
+      <div class="col-sm-6">
+        <input type="text" id="name" name = "name" class="form-control" required>
+      </div>
+    </div>
+
+    <div class="row justify-content-center mt-4">
+      <label for="surname" class="col-4 col-form-label">Фамилия</label>
+
+      <div class="col-sm-6">
+        <input type="text" id="surname" name = "surname" class="form-control" required>
+      </div>
+    </div>
+
+    <div class="row justify-content-center mt-4">
+      <label for="nickname" class="col-4 col-form-label">Псевдоним</label>
+
+      <div class="col-sm-6">
+        <input type="text" id="nickname" name = "nickname" class="form-control" required>
+      </div>
+    </div>
+
+    <div class="row justify-content-center mt-4">
+      <label for="email" class="col-4 col-form-label">Email</label>
+
+      <div class="col-sm-6">
+        <input type="email" id="email" name = "email" class="form-control" required>
+      </div>
+    </div>
+
+    <div class="row justify-content-center mt-4">
+      <label for="phone" class="col-4 col-form-label">Телефон</label>
+
+      <div class="col-sm-6">
+        <input type="text" id="phone" name = "phone" class="form-control" required>
+      </div>
+    </div>
+
+    <div class="row justify-content-center mt-4">
+      <label for="password" class="col-4 col-form-label">Пароль</label>
+
+      <div class="col-sm-6">
+        <input type="password" id="password" name = "password" class="form-control" required>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="form-group col">
+
+    <div class="row justify-content-center">
+      <label for="card" class="col-4 col-form-label">Пол</label>
+
+      <div class="col-6">
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" name="gender" type="radio" id="male" value="male" required/>
+          <label class="form-check-label" for="male">Мужской</label>
+        </div>
+
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" name="gender" type="radio" id="female" value="female" required/>
+          <label class="form-check-label" for="female">Женский</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="row justify-content-center mt-4">
+      <label for="birthday" class="col-4 col-form-label">Дата рождения</label>
+
+      <div class="col-6">
+        <input type="date" id="birthday" name="birthday" class="form-control" required>
+      </div>
+    </div>
+
+    <div class="row justify-content-center mt-4">
+      <label for="city" class="col-4 col-form-label">Город</label>
+
+      <div class="col-sm-6">
+        <select id="city" name="city" class="form-select" aria-label="Default select example" required>
+          <option selected>City</option>
+          <option value="one">One</option>
+          <option value="two">Two</option>
+          <option value="three">Three</option>
+        </select>
+
+        <select class="form-control" id="dropDownList">
+          <option value="0">select option</option>
+          <option th:each="option : ${options}" th:value="${option}" th:text="${option}"></option>
+        </select>
+
+      </div>
+    </div>
+
+    <div class="row justify-content-center mt-4">
+      <label for="address" class="col-4 col-form-label">Адресс</label>
+
+      <div class="col-sm-6">
+        <input type="text" id="address" name = "address" class="form-control" required>
+      </div>
+    </div>
+
+
+    <div class="row justify-content-center mt-4">
+      <label for="card" class="col-4 col-form-label">Номер карты</label>
+
+      <div class="col-sm-6">
+        <input type="text" id="card" name = "card" class="form-control" required>
+      </div>
+    </div>
+
+    <div class="row justify-content-center mt-4">
+      <label for="repeat_password" class="col-4 col-form-label">Повторите пароль</label>
+
+      <div class="col-sm-6">
+        <input type="password" id="repeat_password" name = "email" class="form-control" required>
+      </div>
+    </div>
+
+  </div>
+
+<!--  <button type="submit" class="btn btn-primary">Save changes</button>-->
+
+</form>

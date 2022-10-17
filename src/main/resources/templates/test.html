@@ -10,16 +10,19 @@
 
 
   <!-- Button trigger modal -->
-  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    Launch demo modal
-  </button>
 
 
-  <img src="/templates/user/icons/logo.svg" alt="logo" width="400" height="300">
+
+<!--  <img src="/templates/user/icons/logo.svg" alt="logo" width="400" height="300">-->
 <!--  <button type="button" class="btn-close btn-close-white" data-bs-toggle="modal" data-bs-target="#exampleModal"></button>-->
 
   <div class="container">
-      <h1>test</h1>
+
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          Launch demo modal
+      </button>
+
+      <h1 class="text-center">test</h1>
 
       <div th:each="el :${tmp}" class="alert alert-info mt-2">
           <h3 th:text="${el.id}"></h3>
@@ -33,7 +36,7 @@
 
 
   <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog modal-xl">
       <div class="modal-content">
         <div class="modal-header">
@@ -43,7 +46,7 @@
         <div class="modal-body">
 
 
-          <form class="row" action="/test/add" method="post">
+          <form class="row m-0 p-0" action="/test/add" method="post">
 
 
 <!--                <div class="row g-3">-->
@@ -61,20 +64,20 @@
 <!--                </div>-->
 
 
-              <div class="row gx-2 gy-4">
+              <div class="row gy-4">
 
                   <div class="col row m-0 p-0">
-                      <label for="name" class="col-auto col-form-label">Названия новости</label>
+                      <label for="name" class="col-4 col-form-label">Названия новости</label>
 
-                      <div class="col-sm-8">
+                      <div class="col-sm-6">
                           <input type="text" id="name" name = "name" class="form-control">
                       </div>
                   </div>
 
                   <div class="col row">
-                      <label for="data" class="col-md-auto col-form-label">Дата публикации</label>
+                      <label for="data" class="col-4 col-form-label">Дата публикации</label>
 
-                      <div class="col-auto">
+                      <div class="col-6">
                           <input type="date" id="data" name="data" class="form-control">
                       </div>
                   </div>
@@ -83,59 +86,72 @@
 
 
 
-              <div class="row gx-2 gy-4">
-                  <label for="describe" class="col-auto col-form-label pe-4">Описания</label>
+              <div class="form-row gy-4">
+                  <div class="col row">
+                      <label for="describe" class="col-2 col-form-label">Описания</label>
 
-                  <div class="col">
-                      <textarea class="form-control" id="describe" name="describe" rows="3"></textarea>
-                  </div>
-              </div>
-
-
-
-              <div class="row gx-2 gy-4">
-                  <label for="describe" class="col-md-auto col-form-label pe-4">Главна картинка</label>
-
-                  <div class="col">
-                      <textarea class="form-control" id="describe" rows="3"></textarea>
-                  </div>
-              </div>
-
-
-
-              <div class="row gx-2 gy-4">
-                  <label for="describe" class="col-md-auto col-form-label pe-4">Галерея картинок</label>
-
-                  <div class="col">
-                      <textarea class="form-control" id="describe" rows="3"></textarea>
-                  </div>
-              </div>
-
-
-              <div class="row gx-2 gy-4">
-                  <label for="trailer" class="col-auto col-form-label pe-4">Сылка на трейлер</label>
-
-                  <div class="col">
-                      <input type="text" id="trailer" name="trail" class="form-control">
-                  </div>
-              </div>
-
-              <div class="row gx-2 gy-4">
-                  <label for="trailer" class="col-auto col-form-label pe-4">Тип кино</label>
-
-                  <div class="col gy-4">
-                      <div class="form-check form-check-inline">
-                          <input class="form-check-input" type="checkbox" id="2d" value="2d">
-                          <label class="form-check-label" for="2d">2D</label>
+                      <div class="col">
+                          <textarea class="form-control" id="describe" name="describe" rows="3"></textarea>
                       </div>
-                      <div class="form-check form-check-inline">
-                          <input class="form-check-input" type="checkbox" id="3d" value="3d">
-                          <label class="form-check-label" for="3d">3D</label>
+                  </div>
+              </div>
+
+
+
+              <div class="form-row gy-4">
+                  <div class="col row">
+                      <label for="describe" class="col-2 col-form-label pe-4">Главна картинка</label>
+
+                      <div class="col">
+                          <textarea class="form-control" id="describe" rows="3"></textarea>
                       </div>
-                      <div class="form-check form-check-inline">
-                          <input class="form-check-input" type="checkbox" id="imax" value="imax">
-                          <label class="form-check-label" for="imax">IMAX</label>
+                  </div>
+              </div>
+
+
+
+              <div class="form-row gy-4">
+                  <div class="col row">
+                      <label for="describe" class="col-2 col-form-label pe-4">Галерея картинок</label>
+
+                      <div class="col">
+                          <textarea class="form-control" id="describe" rows="3"></textarea>
                       </div>
+                  </div>
+              </div>
+
+
+              <div class="fom-row gy-4">
+                  <div class="col row">
+                      <label for="trailer" class="col-2 col-form-label pe-4">Сылка на трейлер</label>
+
+                      <div class="col">
+                          <input type="text" id="trailer" name="trail" class="form-control">
+                      </div>
+                  </div>
+              </div>
+
+              <div class="form-row gy-4">
+
+                  <div class="col row">
+
+                      <label for="trailer" class="col-2 col-form-label pe-4">Тип кино</label>
+
+                      <div class="col">
+                          <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="checkbox" id="2d" value="2d">
+                              <label class="form-check-label" for="2d">2D</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="checkbox" id="3d" value="3d">
+                              <label class="form-check-label" for="3d">3D</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="checkbox" id="imax" value="imax">
+                              <label class="form-check-label" for="imax">IMAX</label>
+                          </div>
+                      </div>
+
                   </div>
               </div>
 
@@ -168,6 +184,133 @@
 
 
 <!--&lt;!&ndash;          </form>&ndash;&gt;-->
+
+            <form class="row m-0 p-0 needs-validation" method="post">
+                <div class="col">
+
+                    <div class="row justify-content-center mt-4">
+                        <label for="name" class="col-4 col-form-label">Имя</label>
+
+                        <div class="col-sm-6">
+                            <input type="text" id="name" name = "name" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center mt-4">
+                        <label for="surname" class="col-4 col-form-label">Фамилия</label>
+
+                        <div class="col-sm-6">
+                            <input type="text" id="surname" name = "surname" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center mt-4">
+                        <label for="nickname" class="col-4 col-form-label">Псевдоним</label>
+
+                        <div class="col-sm-6">
+                            <input type="text" id="nickname" name = "nickname" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center mt-4">
+                        <label for="email" class="col-4 col-form-label">Email</label>
+
+                        <div class="col-sm-6">
+                            <input type="email" id="email" name = "email" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center mt-4">
+                        <label for="phone" class="col-4 col-form-label">Телефон</label>
+
+                        <div class="col-sm-6">
+                            <input type="text" id="phone" name = "phone" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center mt-4">
+                        <label for="password" class="col-4 col-form-label">Пароль</label>
+
+                        <div class="col-sm-6">
+                            <input type="password" id="password" name = "password" class="form-control" required>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-group col">
+
+                    <div class="row justify-content-center mt-4">
+                        <label for="card" class="col-4 col-form-label">Пол</label>
+
+                        <div class="col-6">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" name="gender" type="radio" id="male" value="male" required/>
+                                <label class="form-check-label" for="male">Мужской</label>
+                            </div>
+
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" name="gender" type="radio" id="female" value="female" required/>
+                                <label class="form-check-label" for="female">Женский</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center mt-4">
+                        <label for="birthday" class="col-4 col-form-label">Дата рождения</label>
+
+                        <div class="col-6">
+                            <input type="date" id="birthday" name="birthday" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center mt-4">
+                        <label for="address" class="col-4 col-form-label">Город</label>
+
+                        <div class="col-sm-6">
+                            <select class="form-select" aria-label="Default select example" required>
+<!--                                <option selected>City</option>-->
+                                <option value="one">One</option>
+                                <option value="two">Two</option>
+                                <option value="three">Three</option>
+                            </select>
+
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center mt-4">
+                        <label for="address" class="col-4 col-form-label">Адресс</label>
+
+                        <div class="col-sm-6">
+                            <input type="text" id="address" name = "address" class="form-control" required>
+                        </div>
+                    </div>
+
+
+                    <div class="row justify-content-center mt-4">
+                        <label for="card" class="col-4 col-form-label">Номер карты</label>
+
+                        <div class="col-sm-6">
+                            <input type="text" id="card" name = "card" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center mt-4">
+                        <label for="repeat_password" class="col-4 col-form-label">Повторите пароль</label>
+
+                        <div class="col-sm-6">
+                            <input type="password" id="repeat_password" name = "email" class="form-control" required>
+                        </div>
+                    </div>
+
+                </div>
+
+                <button type="submit" class="btn btn-primary">Save changes</button>
+
+            </form>
+
+
+
 
 
         </div>
