@@ -3,16 +3,18 @@ package com.example.kinocms.models;
 
 import com.example.kinocms.enums.Gender;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.Hibernate;
+import org.hibernate.annotations.Type;
 
-import java.time.LocalDate;
 import java.util.Date;
+import java.util.Objects;
 
-
-@Data
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 
 @Entity
 @Table(name = "users")
@@ -29,10 +31,11 @@ public class User {
     private String nickname;
 
     @Column
-    String password;
+    private String password;
 
     @Column
-    boolean active;
+    @Convert(converter = org.hibernate.type.NumericBooleanConverter.class)
+    private Boolean active;
 
     @Column
     private String name;
@@ -41,6 +44,7 @@ public class User {
     private String surname;
 
     @Column
+    @Enumerated(EnumType.STRING)
     private Gender gender;
 
     @Column
@@ -49,6 +53,7 @@ public class User {
     @Column
     private String phone;
 
+    @Column
     @Temporal(TemporalType.DATE)
     private Date birthday;
 
@@ -57,4 +62,17 @@ public class User {
 
     @Column
     private String address;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        User user = (User) o;
+        return id != null && Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

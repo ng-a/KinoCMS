@@ -81,16 +81,16 @@
 
       <div class="col-sm-6">
         <select id="city" name="city" class="form-select" aria-label="Default select example" required>
-          <option selected>City</option>
+          <option value="" selected>Select</option>
           <option value="one">One</option>
           <option value="two">Two</option>
           <option value="three">Three</option>
         </select>
 
-        <select class="form-control" id="dropDownList">
-          <option value="0">select option</option>
-          <option th:each="option : ${options}" th:value="${option}" th:text="${option}"></option>
-        </select>
+<!--        <select class="form-control" id="dropDownList">-->
+<!--          <option value="0" selected>select option</option>-->
+<!--          <option th:each="option : ${options}" th:value="${option}" th:text="${option}"></option>-->
+<!--        </select>-->
 
       </div>
     </div>

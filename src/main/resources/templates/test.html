@@ -7,6 +7,7 @@
 </head>
 <body>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 
 
   <!-- Button trigger modal -->
@@ -103,8 +104,73 @@
                       <label for="describe" class="col-2 col-form-label pe-4">Главна картинка</label>
 
                       <div class="col">
-                          <textarea class="form-control" id="describe" rows="3"></textarea>
-                      </div>
+                          <div class="position-relative d-inline-block img-width me-3 my-2">
+                              <button type="button" id="deleteImage"  class="position-absolute top-0 start-100 translate-middle btn">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                      <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+                                  </svg>
+                              </button>
+
+                              <label id="changeImage" class="btn" for="imageFile">
+                                  <img id="image" class="rounded" src="user/icons/default.png" width="160" height="100">
+                                  <input id="imageFile" type="file" multiple accept="image/*" onchange="showImage(this.value)" style="display:none">
+                              </label>
+                          </div>
+
+
+                          <div id="addBlockImage" class="position-relative d-inline-block img-width ms-3 my-2">
+<!--                              <button type="button" class="position-absolute top-0 start-100 translate-middle btn">✕</button>-->
+                              <button type="button" id="addImage" class="btn" style="height:100px; width:160px">
+                                  <svg width="40" height="40" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                                      <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                  </svg>
+                              </button>
+                          </div>
+
+
+
+
+                          <script>
+                              $(document).on("change", "#imageFile", function(){
+                                  let reader = new FileReader();
+
+                                  reader.onload = function(){
+                                      $("#image").attr("src", reader.result);
+
+                                      // $(this).closest("#changeImage").find('#image')
+                                      // $(this).siblings().attr("src", reader.result);
+                                  }
+
+                                  reader.readAsDataURL($(this)[0].files[0]);
+                              });
+
+                              $(document).on("click", "#deleteImage" , function() {
+                                  $(this).parent().remove();
+                              });
+
+                              $("#addImage").click(function(){
+                                  $(this).closest(".row").find("#addBlockImage").before(
+                                      "                          <div class=\"position-relative d-inline-block img-width me-3 my-2\">\n" +
+                                      "                              <button type=\"button\" id=\"deleteImage\"  class=\"position-absolute top-0 start-100 translate-middle btn\">\n" +
+                                      "                                  <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-x-lg\" viewBox=\"0 0 16 16\">\n" +
+                                      "                                      <path d=\"M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z\"/>\n" +
+                                      "                                  </svg>\n" +
+                                      "                              </button>\n" +
+                                      "\n" +
+                                      "                              <label id=\"changeImage\" class=\"btn\" for=\"imageFile\">\n" +
+                                      "                                  <img id=\"image\" class=\"rounded\" src=\"user/icons/default.png\" width=\"160\" height=\"100\">\n" +
+                                      "                                  <input id=\"imageFile\" type=\"file\" multiple accept=\"image/*\" onchange=\"showImage(this.value)\" style=\"display:none\">\n" +
+                                      "                              </label>\n" +
+                                      "                          </div>"
+                                  );
+                              });
+
+
+
+                          </script>
+
+
+
                   </div>
               </div>
 
@@ -185,129 +251,129 @@
 
 <!--&lt;!&ndash;          </form>&ndash;&gt;-->
 
-            <form class="row m-0 p-0 needs-validation" method="post">
-                <div class="col">
+<!--            <form class="row m-0 p-0 needs-validation" method="post">-->
+<!--                <div class="col">-->
 
-                    <div class="row justify-content-center mt-4">
-                        <label for="name" class="col-4 col-form-label">Имя</label>
+<!--                    <div class="row justify-content-center mt-4">-->
+<!--                        <label for="name" class="col-4 col-form-label">Имя</label>-->
 
-                        <div class="col-sm-6">
-                            <input type="text" id="name" name = "name" class="form-control" required>
-                        </div>
-                    </div>
+<!--                        <div class="col-sm-6">-->
+<!--                            <input type="text" id="name" name = "name" class="form-control" required>-->
+<!--                        </div>-->
+<!--                    </div>-->
 
-                    <div class="row justify-content-center mt-4">
-                        <label for="surname" class="col-4 col-form-label">Фамилия</label>
+<!--                    <div class="row justify-content-center mt-4">-->
+<!--                        <label for="surname" class="col-4 col-form-label">Фамилия</label>-->
 
-                        <div class="col-sm-6">
-                            <input type="text" id="surname" name = "surname" class="form-control" required>
-                        </div>
-                    </div>
+<!--                        <div class="col-sm-6">-->
+<!--                            <input type="text" id="surname" name = "surname" class="form-control" required>-->
+<!--                        </div>-->
+<!--                    </div>-->
 
-                    <div class="row justify-content-center mt-4">
-                        <label for="nickname" class="col-4 col-form-label">Псевдоним</label>
+<!--                    <div class="row justify-content-center mt-4">-->
+<!--                        <label for="nickname" class="col-4 col-form-label">Псевдоним</label>-->
 
-                        <div class="col-sm-6">
-                            <input type="text" id="nickname" name = "nickname" class="form-control" required>
-                        </div>
-                    </div>
+<!--                        <div class="col-sm-6">-->
+<!--                            <input type="text" id="nickname" name = "nickname" class="form-control" required>-->
+<!--                        </div>-->
+<!--                    </div>-->
 
-                    <div class="row justify-content-center mt-4">
-                        <label for="email" class="col-4 col-form-label">Email</label>
+<!--                    <div class="row justify-content-center mt-4">-->
+<!--                        <label for="email" class="col-4 col-form-label">Email</label>-->
 
-                        <div class="col-sm-6">
-                            <input type="email" id="email" name = "email" class="form-control" required>
-                        </div>
-                    </div>
+<!--                        <div class="col-sm-6">-->
+<!--                            <input type="email" id="email" name = "email" class="form-control" required>-->
+<!--                        </div>-->
+<!--                    </div>-->
 
-                    <div class="row justify-content-center mt-4">
-                        <label for="phone" class="col-4 col-form-label">Телефон</label>
+<!--                    <div class="row justify-content-center mt-4">-->
+<!--                        <label for="phone" class="col-4 col-form-label">Телефон</label>-->
 
-                        <div class="col-sm-6">
-                            <input type="text" id="phone" name = "phone" class="form-control" required>
-                        </div>
-                    </div>
+<!--                        <div class="col-sm-6">-->
+<!--                            <input type="text" id="phone" name = "phone" class="form-control" required>-->
+<!--                        </div>-->
+<!--                    </div>-->
 
-                    <div class="row justify-content-center mt-4">
-                        <label for="password" class="col-4 col-form-label">Пароль</label>
+<!--                    <div class="row justify-content-center mt-4">-->
+<!--                        <label for="password" class="col-4 col-form-label">Пароль</label>-->
 
-                        <div class="col-sm-6">
-                            <input type="password" id="password" name = "password" class="form-control" required>
-                        </div>
-                    </div>
+<!--                        <div class="col-sm-6">-->
+<!--                            <input type="password" id="password" name = "password" class="form-control" required>-->
+<!--                        </div>-->
+<!--                    </div>-->
 
-                </div>
+<!--                </div>-->
 
-                <div class="form-group col">
+<!--                <div class="form-group col">-->
 
-                    <div class="row justify-content-center mt-4">
-                        <label for="card" class="col-4 col-form-label">Пол</label>
+<!--                    <div class="row justify-content-center mt-4">-->
+<!--                        <label for="card" class="col-4 col-form-label">Пол</label>-->
 
-                        <div class="col-6">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" name="gender" type="radio" id="male" value="male" required/>
-                                <label class="form-check-label" for="male">Мужской</label>
-                            </div>
+<!--                        <div class="col-6">-->
+<!--                            <div class="form-check form-check-inline">-->
+<!--                                <input class="form-check-input" name="gender" type="radio" id="male" value="male" required/>-->
+<!--                                <label class="form-check-label" for="male">Мужской</label>-->
+<!--                            </div>-->
 
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" name="gender" type="radio" id="female" value="female" required/>
-                                <label class="form-check-label" for="female">Женский</label>
-                            </div>
-                        </div>
-                    </div>
+<!--                            <div class="form-check form-check-inline">-->
+<!--                                <input class="form-check-input" name="gender" type="radio" id="female" value="female" required/>-->
+<!--                                <label class="form-check-label" for="female">Женский</label>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
 
-                    <div class="row justify-content-center mt-4">
-                        <label for="birthday" class="col-4 col-form-label">Дата рождения</label>
+<!--                    <div class="row justify-content-center mt-4">-->
+<!--                        <label for="birthday" class="col-4 col-form-label">Дата рождения</label>-->
 
-                        <div class="col-6">
-                            <input type="date" id="birthday" name="birthday" class="form-control" required>
-                        </div>
-                    </div>
+<!--                        <div class="col-6">-->
+<!--                            <input type="date" id="birthday" name="birthday" class="form-control" required>-->
+<!--                        </div>-->
+<!--                    </div>-->
 
-                    <div class="row justify-content-center mt-4">
-                        <label for="address" class="col-4 col-form-label">Город</label>
+<!--                    <div class="row justify-content-center mt-4">-->
+<!--                        <label for="address" class="col-4 col-form-label">Город</label>-->
 
-                        <div class="col-sm-6">
-                            <select class="form-select" aria-label="Default select example" required>
-<!--                                <option selected>City</option>-->
-                                <option value="one">One</option>
-                                <option value="two">Two</option>
-                                <option value="three">Three</option>
-                            </select>
+<!--                        <div class="col-sm-6">-->
+<!--                            <select class="form-select" aria-label="Default select example" required>-->
+<!--&lt;!&ndash;                                <option selected>City</option>&ndash;&gt;-->
+<!--                                <option value="one">One</option>-->
+<!--                                <option value="two">Two</option>-->
+<!--                                <option value="three">Three</option>-->
+<!--                            </select>-->
 
-                        </div>
-                    </div>
+<!--                        </div>-->
+<!--                    </div>-->
 
-                    <div class="row justify-content-center mt-4">
-                        <label for="address" class="col-4 col-form-label">Адресс</label>
+<!--                    <div class="row justify-content-center mt-4">-->
+<!--                        <label for="address" class="col-4 col-form-label">Адресс</label>-->
 
-                        <div class="col-sm-6">
-                            <input type="text" id="address" name = "address" class="form-control" required>
-                        </div>
-                    </div>
+<!--                        <div class="col-sm-6">-->
+<!--                            <input type="text" id="address" name = "address" class="form-control" required>-->
+<!--                        </div>-->
+<!--                    </div>-->
 
 
-                    <div class="row justify-content-center mt-4">
-                        <label for="card" class="col-4 col-form-label">Номер карты</label>
+<!--                    <div class="row justify-content-center mt-4">-->
+<!--                        <label for="card" class="col-4 col-form-label">Номер карты</label>-->
 
-                        <div class="col-sm-6">
-                            <input type="text" id="card" name = "card" class="form-control" required>
-                        </div>
-                    </div>
+<!--                        <div class="col-sm-6">-->
+<!--                            <input type="text" id="card" name = "card" class="form-control" required>-->
+<!--                        </div>-->
+<!--                    </div>-->
 
-                    <div class="row justify-content-center mt-4">
-                        <label for="repeat_password" class="col-4 col-form-label">Повторите пароль</label>
+<!--                    <div class="row justify-content-center mt-4">-->
+<!--                        <label for="repeat_password" class="col-4 col-form-label">Повторите пароль</label>-->
 
-                        <div class="col-sm-6">
-                            <input type="password" id="repeat_password" name = "email" class="form-control" required>
-                        </div>
-                    </div>
+<!--                        <div class="col-sm-6">-->
+<!--                            <input type="password" id="repeat_password" name = "email" class="form-control" required>-->
+<!--                        </div>-->
+<!--                    </div>-->
 
-                </div>
+<!--                </div>-->
 
-                <button type="submit" class="btn btn-primary">Save changes</button>
+<!--                <button type="submit" class="btn btn-primary">Save changes</button>-->
 
-            </form>
+<!--            </form>-->
 
 
 
