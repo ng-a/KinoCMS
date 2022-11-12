@@ -47,7 +47,7 @@
         <div class="modal-body">
 
 
-          <form class="row m-0 p-0" action="/test/add" method="post">
+          <form class="row m-0 p-0" action="/test/add" enctype="multipart/form-data" method="post">
 
 
 <!--                <div class="row g-3">-->
@@ -83,6 +83,14 @@
                       </div>
                   </div>
 
+                  <div class="col row">
+                      <label class="col-2 form-check-label" for="active">Вкл</label>
+
+                      <div class="col-2  form-check form-switch">
+                          <input class="form-check-input" type="checkbox" role="switch" id="active">
+                      </div>
+                  </div>
+
               </div>
 
 
@@ -112,8 +120,8 @@
                               </button>
 
                               <label id="changeImage" class="btn" for="imageFile">
-                                  <img id="image" class="rounded" src="user/icons/default.png" width="160" height="100">
-                                  <input id="imageFile" type="file" multiple accept="image/*" onchange="showImage(this.value)" style="display:none">
+                                  <img id="image" class="rounded" src="/user/icons/default.png" width="160" height="100">
+                                  <input id="imageFile" type="file" name="test12" multiple accept="image/*" onchange="showImage(this)" style="display:none">
                               </label>
                           </div>
 
@@ -137,8 +145,8 @@
                                   reader.onload = function(){
                                       $("#image").attr("src", reader.result);
 
-                                      // $(this).closest("#changeImage").find('#image')
-                                      // $(this).siblings().attr("src", reader.result);
+                                      //$(this).closest("#changeImage").find('#image')
+                                      //$(this).siblings("image").attr("src", reader.result);
                                   }
 
                                   reader.readAsDataURL($(this)[0].files[0]);
@@ -158,7 +166,7 @@
                                       "                              </button>\n" +
                                       "\n" +
                                       "                              <label id=\"changeImage\" class=\"btn\" for=\"imageFile\">\n" +
-                                      "                                  <img id=\"image\" class=\"rounded\" src=\"user/icons/default.png\" width=\"160\" height=\"100\">\n" +
+                                      "                                  <img id=\"image\" class=\"rounded\" src=\"../static/admin/user/icons/default.png\" width=\"160\" height=\"100\">\n" +
                                       "                                  <input id=\"imageFile\" type=\"file\" multiple accept=\"image/*\" onchange=\"showImage(this.value)\" style=\"display:none\">\n" +
                                       "                              </label>\n" +
                                       "                          </div>"
@@ -225,6 +233,206 @@
 
           </form>
 
+
+
+            <form th:fragment = "form" id = "registrationForm" class="row m-0 p-0 needs-validation my-4" action="/registration" method="post">
+                <div class="form-group col">
+
+                    <div class="row">
+                        <label for="name" class="col-6 col-form-label">Названия новости</label>
+
+                        <div class="col-sm-6">
+                            <input type="text" id="name" name = "name" class="form-control">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-group col">
+
+                    <div class="row">
+                        <label for="data" class="col-5 col-form-label">Дата публикации</label>
+
+                        <div class="col-6">
+                            <input type="date" id="data" name="data" class="form-control">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-group col">
+
+                    <div class="row">
+                        <label class="col-2 form-check-label" for="active">Вкл</label>
+
+                        <div class="col-2 form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="active">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-group row">
+
+                    <div class="row mt-4">
+                        <label for="describe" class="col-2 col-form-label">Описания</label>
+
+                        <div class="col">
+                            <textarea class="form-control" id="describe" name="describe" rows="3"></textarea>
+                        </div>
+                    </div>
+
+
+                    <div class="row mt-4">
+                        <label for="describe" class="col-2 col-form-label">Описания</label>
+
+                        <div class="col">
+                            <textarea class="form-control" id="describe" name="describe" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <label for="describe" class="col-2 col-form-label pe-4">Главна картинка</label>
+
+
+
+
+                    </div>
+
+
+                    <div class="row mt-4">
+                        <label for="describe" class="col-2 col-form-label pe-4">Галерея картинок</label>
+
+                        <div class="col">
+                            <div class="position-relative d-inline-block img-width me-3 my-2">
+                                <button type="button" id="deleteImage"  class="position-absolute top-0 start-100 translate-middle btn">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                        <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+                                    </svg>
+                                </button>
+
+                                <label id="changeImage" class="btn" for="imageFile">
+                                    <img id="image" class="rounded" src="/user/icons/default.png" width="160" height="100">
+                                    <input id="imageFile" type="file" name="test12" multiple accept="image/*" onchange="showImage(this)" style="display:none">
+                                </label>
+                            </div>
+
+
+                            <div id="addBlockImage" class="position-relative d-inline-block img-width ms-3 my-2">
+                                <!--                              <button type="button" class="position-absolute top-0 start-100 translate-middle btn">✕</button>-->
+                                <button type="button" id="addImage" class="btn" style="height:100px; width:160px">
+                                    <svg width="40" height="40" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                    </svg>
+                                </button>
+                            </div>
+
+
+
+
+                            <script>
+                                $(document).on("change", "#imageFile", function(){
+                                    let reader = new FileReader();
+
+                                    reader.onload = function(){
+                                        $("#image").attr("src", reader.result);
+
+                                        //$(this).closest("#changeImage").find('#image')
+                                        //$(this).siblings("image").attr("src", reader.result);
+                                    }
+
+                                    reader.readAsDataURL($(this)[0].files[0]);
+                                });
+
+                                $(document).on("click", "#deleteImage" , function() {
+                                    $(this).parent().remove();
+                                });
+
+                                $("#addImage").click(function(){
+                                    $(this).closest(".row").find("#addBlockImage").before(
+                                        "                          <div class=\"position-relative d-inline-block img-width me-3 my-2\">\n" +
+                                        "                              <button type=\"button\" id=\"deleteImage\"  class=\"position-absolute top-0 start-100 translate-middle btn\">\n" +
+                                        "                                  <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-x-lg\" viewBox=\"0 0 16 16\">\n" +
+                                        "                                      <path d=\"M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z\"/>\n" +
+                                        "                                  </svg>\n" +
+                                        "                              </button>\n" +
+                                        "\n" +
+                                        "                              <label id=\"changeImage\" class=\"btn\" for=\"imageFile\">\n" +
+                                        "                                  <img id=\"image\" class=\"rounded\" src=\"../static/admin/user/icons/default.png\" width=\"160\" height=\"100\">\n" +
+                                        "                                  <input id=\"imageFile\" type=\"file\" multiple accept=\"image/*\" onchange=\"showImage(this.value)\" style=\"display:none\">\n" +
+                                        "                              </label>\n" +
+                                        "                          </div>"
+                                    );
+                                });
+
+
+
+                            </script>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row mt-4">
+                        <label for="link" class="col-2 col-form-label">Ссылка на видео</label>
+
+                        <div class="col">
+                            <input type="text" id="link" name= "link" class="form-control">
+                        </div>
+                    </div>
+
+
+                    <div class="row mt-4">
+                        <label for="link" class="col-2 col-form-label">SEO блок:</label>
+
+
+                        <div class="col">
+                            <div class="row mt-4">
+                                <label for="seo-link" class="col-2 col-form-label">URL</label>
+
+                                <div class="col-6">
+                                    <input type="text" id="seo-link" name= "link" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <label for="seo-title" class="col-2 col-form-label">Title</label>
+
+                                <div class="col-6">
+                                    <input type="text" id="seo-title" name= "seo-title" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <label for="seo-keywords" class="col-2 col-form-label">Keywords</label>
+
+                                <div class="col-6">
+                                    <input type="text" id="seo-keywords" name="seo-keywords" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <label for="seo-descriptions" class="col-2 col-form-label">Descriptions</label>
+
+                                <div class="col-6">
+                                    <input type="text" id="seo-descriptions" name="seo-descriptions" class="form-control">
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+
+                <button type="submit" class="btn btn-primary">Save changes</button>
+
+                <!--  <button type="submit" class="btn btn-primary">Save changes</button>-->
+<!--                <button type="submit" class="btn btn-primary">Save</button>-->
+            </form>
 
 <!--&lt;!&ndash;          <form class="row g-3 container">&ndash;&gt;-->
 
@@ -387,6 +595,8 @@
       </div>
     </div>
   </div>
+
+
 
 
 

@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/admin_layout}">
+<head>
+  <title>News</title>
+</head>
+<body>
+
+<div class="container" layout:fragment="content">
+    <h2 class="text-center my-3">Список новостей</h2>
+
+    <button id="modal-button" onclick="formCreate(); modalShow();" class="btn btn-success">Добавить новость</button>
+
+    <table id="news-table" class="table">
+        <thead>
+            <tr>
+              <th scope="col">Названия</th>
+              <th scope="col">Дата создания</th>
+              <th scope="col">Статус</th>
+              <th scope="col">Действие</th>
+            </tr>
+        </thead>
+
+        <tbody id="news-content-table"></tbody>
+
+    </table>
+
+
+
+    <div class="modal fade" id="modal-window" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <!--          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>-->
+                    <button id="close-modal" type="button" class="btn-close" onclick="modalHide()" aria-label="Close"></button>
+                </div>
+                <div id="modal-body" class="modal-body">
+
+<!--                        <div th:insert="~{admin/bloks/news_form :: news-from}"></div>-->
+
+
+
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button id="save-button" type="button" onclick="saveNews()" class="btn btn-primary btn-ml btn-lg col-4 my-2">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+<th:block layout:fragment="scripts">
+
+    <script src="/admin/JS/image.js"></script>
+    <script src="/admin/JS/modal.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            getNews();
+        });
+
+        function formCreate() {
+            $("#modal-body").append(
+                '<form id="news-from" class="row m-0 p-0 needs-validation my-4" enctype="multipart/form-data" method="post">\n' +
+                '  <div class="form-group col">\n' +
+                '\n' +
+                '    <div class="row">\n' +
+                '      <label for="name" class="col-6 col-form-label">Названия новости</label>\n' +
+                '\n' +
+                '      <div class="col-sm-6">\n' +
+                '        <input type="text" id="name" name = "name" class="form-control">\n' +
+                '      </div>\n' +
+                '    </div>\n' +
+                '\n' +
+                '  </div>\n' +
+                '\n' +
+                '  <div class="form-group col">\n' +
+                '\n' +
+                '    <div class="row">\n' +
+                '      <label for="date" class="col-5 col-form-label">Дата публикации</label>\n' +
+                '\n' +
+                '      <div class="col-6">\n' +
+                '        <input type="date" id="date" name="date" class="form-control">\n' +
+                '      </div>\n' +
+                '    </div>\n' +
+                '\n' +
+                '  </div>\n' +
+                '\n' +
+                '  <div class="form-group col">\n' +
+                '\n' +
+                '    <div class="row">\n' +
+                '      <label class="col-2 form-check-label" for="active">Вкл</label>\n' +
+                '\n' +
+                '      <div class="col-2 form-check form-switch">\n' +
+                '        <input class="form-check-input" type="checkbox" role="switch" id="active" name="active" checked>\n' +
+                '      </div>\n' +
+                '    </div>\n' +
+                '\n' +
+                '  </div>\n' +
+                '\n' +
+                '  <div class="form-group row">\n' +
+                '\n' +
+                '    <div class="row mt-4">\n' +
+                '      <label for="descriptions" class="col-2 col-form-label">Описания</label>\n' +
+                '\n' +
+                '      <div class="col">\n' +
+                '        <textarea class="form-control" id="descriptions" name="descriptions" rows="3"></textarea>\n' +
+                '      </div>\n' +
+                '    </div>\n' +
+                '\n' +
+                '    <div class="row mt-4">\n' +
+                '      <label for="add-main-image" class="col-2 col-form-label pe-4">Главна картинка</label>\n' +
+                '\n' +
+                '      <div id="main-images"  class="col">\n' +
+                '\n' +
+                '        <div id="add-block-main-image" class="position-relative d-inline-block img-width my-2">\n' +
+                '          <button type="button" id="add-main-image" class="btn" style="height:100px; width:160px">\n' +
+                '            <svg width="40" height="40" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">\n' +
+                '              <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>\n' +
+                '            </svg>\n' +
+                '          </button>\n' +
+                '        </div>\n' +
+                '\n' +
+                '      </div>\n' +
+                '\n' +
+                '    </div>\n' +
+                '\n' +
+                '\n' +
+                '    <div class="row mt-4">\n' +
+                '      <label for="add-gallery-image" class="col-2 col-form-label pe-4">Галерея картинок</label>\n' +
+                '\n' +
+                '      <div class="col" id="gallery-images">\n' +
+                '\n' +
+                '        <div id="add-block-gallery-image" class="position-relative d-inline-block img-width my-2">\n' +
+                '          <!--                              <button type="button" class="position-absolute top-0 start-100 translate-middle btn">✕</button>-->\n' +
+                '          <button type="button" id="add-gallery-image" class="btn" style="height:100px; width:160px">\n' +
+                '            <svg width="40" height="40" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">\n' +
+                '              <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>\n' +
+                '            </svg>\n' +
+                '          </button>\n' +
+                '        </div>\n' +
+                '\n' +
+                '      </div>\n' +
+                '\n' +
+                '    </div>\n' +
+                '\n' +
+                '    <div class="row mt-4">\n' +
+                '      <label for="link" class="col-2 col-form-label">Ссылка на видео</label>\n' +
+                '\n' +
+                '      <div class="col">\n' +
+                '        <input type="text" id="link" name= "link" class="form-control">\n' +
+                '      </div>\n' +
+                '    </div>\n' +
+                '\n' +
+                '\n' +
+                '    <div class="row mt-4">\n' +
+                '      <label for="link" class="col-2 col-form-label">SEO блок:</label>\n' +
+                '\n' +
+                '      <div class="col">\n' +
+                '        <div class="row mt-4">\n' +
+                '          <label for="seo-link" class="col-2 col-form-label">URL</label>\n' +
+                '\n' +
+                '          <div class="col-6">\n' +
+                '            <input type="text" id="seo-link" name="seo-link" class="form-control">\n' +
+                '          </div>\n' +
+                '        </div>\n' +
+                '\n' +
+                '        <div class="row mt-4">\n' +
+                '          <label for="seo-title" class="col-2 col-form-label">Title</label>\n' +
+                '\n' +
+                '          <div class="col-6">\n' +
+                '            <input type="text" id="seo-title" name= "seo-title" class="form-control">\n' +
+                '          </div>\n' +
+                '        </div>\n' +
+                '\n' +
+                '        <div class="row mt-4">\n' +
+                '          <label for="seo-keywords" class="col-2 col-form-label">Keywords</label>\n' +
+                '\n' +
+                '          <div class="col-6">\n' +
+                '            <input type="text" id="seo-keywords" name="seo-keywords" class="form-control">\n' +
+                '          </div>\n' +
+                '        </div>\n' +
+                '\n' +
+                '        <div class="row mt-4">\n' +
+                '          <label for="seo-descriptions" class="col-2 col-form-label">Descriptions</label>\n' +
+                '\n' +
+                '          <div class="col-6">\n' +
+                '            <input type="text" id="seo-descriptions" name="seo-descriptions" class="form-control">\n' +
+                '          </div>\n' +
+                '        </div>\n' +
+                '\n' +
+                '\n' +
+                '      </div>\n' +
+                '    </div>\n' +
+                '\n' +
+                '\n' +
+                '  </div>\n' +
+                '\n' +
+                '</form>'
+            )
+
+            $("#save-button").attr("onclick", "saveNews()");
+        }
+
+        function getNews() {
+            let data = {}
+
+            $.ajax({
+                type: 'get',
+                dataType: "json",
+                url: '../admin/news/news-getAll',
+                cache: false,
+                data: data,
+
+                success: function (data){
+                    $.each(data, function(index, news) {
+                        $("#news-content-table").append(
+                            "            <tr id=\"news-" + news.id + "\">\n" +
+                            "                <td id=\"news-name-" + news.id + "\">" + news.name +"</td>\n" +
+                            "                <td id=\"news-date-" + news.id + "\">" + news.date + "</td>\n" +
+                            "                <td id=\"news-active-" + news.id + "\">" + (news.active ? "Вкл" : "Выкл") + "</td>\n" +
+                            "                <td>\n" +
+                            "                    <input onclick=\"editNews(" + news.id + ")\"  type=\"image\" src=\"/admin/icons/edit.svg\" height=\"18px\" width=\"18px\">\n" +
+                            "                    <input onclick=\"deleteNews(" + news.id + ")\"  type=\"image\" src=\"/admin/icons/delete.svg\" height=\"18px\" width=\"18px\">\n" +
+                            "                </td>\n" +
+                            "            </tr>").show('slow');
+                    })
+                },
+
+                error: function() {}
+            });
+        }
+
+        function saveNews(id) {
+            let formData = new FormData();
+
+            let newsInfo = {
+                name: $("#name").val(),
+                date: $("#date").val(),
+                active: $("#active").is(":checked"),
+                descriptions: $("#descriptions").val(),
+                link: $("#link").val(),
+
+                seo: {
+                    url: $("#seo-link").val(),
+                    title: $("#seo-title").val(),
+                    keywords: $("#seo-keywords").val(),
+                    descriptions: $("#seo-descriptions").val() }
+            };
+
+            formData.append('news_info', JSON.stringify(newsInfo));
+
+            $.each($("[name='main-image']"), function (index, value) {
+                if(value.files[0] === undefined) {
+                    return true;
+                }
+
+                formData.append('main_image', $("[name='main-image']").prop('files')[0], "main-image.jpg");
+            });
+
+
+
+            $.each($("[name='gallery-image']"), function (index, value) {
+                if(value.files[0] === undefined) {
+                    return true;
+                }
+
+                // formData.append('gallery_images', value.files[0], "gallery-image-" + (index+1)  + '.' + value.files[0].name.split('.')[1]);
+                formData.append('gallery_images', value.files[0], "gallery-image");
+            });
+
+
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                url: '../admin/news/news-add',
+                cache: false,
+                data: formData,
+                contentType: false,
+                processData: false,
+
+                success: function (news) {
+
+                    $("#news-content-table").append(
+                        "            <tr id=\"news-" + news.id + "\">\n" +
+                        "                <td id=\"news-name-" + news.id + "\">" + news.name +"</td>\n" +
+                        "                <td id=\"news-date-" + news.id + "\">" + news.date + "</td>\n" +
+                        "                <td id=\"news-active-" + news.id + "\">" + (news.active ? "Вкл" : "Выкл") + "</td>\n" +
+                        "                <td>\n" +
+                        "                    <input onclick=\"editNews(" + news.id + ")\"  type=\"image\" src=\"/admin/icons/edit.svg\" height=\"18px\" width=\"18px\">\n" +
+                        "                    <input onclick=\"deleteNews(" + news.id + ")\"  type=\"image\" src=\"/admin/icons/delete.svg\" height=\"18px\" width=\"18px\">\n" +
+                        "                </td>\n" +
+                        "            </tr>").show('slow');
+
+
+                    modalHide();
+                },
+
+                error: function () {
+                    console.log("Error: save news");
+                }
+
+            });
+        }
+
+        function updateNews(news) {
+            let formData = new FormData();
+
+            let main_image;
+            let gallery_images = [];
+
+            $.each($("[name='main-image']"), function (index, value) {
+                if(value.files[0] === undefined) {
+                    main_image = news.main_image;
+
+                    return true;
+                }
+
+                main_image = "change";
+
+
+                formData.append('main_image', $("[name='main-image']").prop('files')[0], "main-image.jpg");
+            });
+
+
+            $.each($("[name='gallery-image']"), function (index, value) {
+
+                if(value.files[0] === undefined) {
+                    gallery_images.push(
+                      news.gallery_images[index]
+                    );
+
+                    return true;
+                }
+
+                gallery_images.push("change");
+
+                // formData.append('gallery_images', value.files[0], "gallery-image-" + (index+1)  + '.' + value.files[0].name.split('.')[1]);
+                formData.append('gallery_images', value.files[0], "gallery-image");
+            });
+
+            let newsInfo = {
+                id: news.id,
+                name: $("#name").val(),
+                date: $("#date").val(),
+                active: $("#active").is(":checked"),
+                descriptions: $("#descriptions").val(),
+                link: $("#link").val(),
+
+                seo: {
+                    id: news.seo.id,
+                    url: $("#seo-link").val(),
+                    title: $("#seo-title").val(),
+                    keywords: $("#seo-keywords").val(),
+                    descriptions: $("#seo-descriptions").val()
+                },
+
+                main_image: main_image,
+
+                gallery_images: gallery_images
+            };
+
+            formData.append('news_info', JSON.stringify(newsInfo));
+
+
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                url: '../admin/news/news-update',
+                cache: false,
+                data: formData,
+                contentType: false,
+                processData: false,
+
+                success: function (change) {
+                    $("#news-name-" + change.id).html(change.name);
+                    $("#news-date-" + change.id).html(change.date);
+                    $("#news-active-" + change.id).html((change.active ? "Вкл" : "Выкл"));
+
+                    modalHide();
+                },
+
+                error: function () {}
+
+            });
+
+
+
+        }
+
+        function editNews(id) {
+            $.ajax({
+                type: 'get',
+                dataType: "json",
+                url: '/admin/news/news-getById',
+                cache: false,
+                data: {
+                    id: id
+                },
+
+                success: function(news) {
+                    formCreate();
+
+                    $("#name").val(news.name);
+                    $("#date").val(news.date),
+                    $("#active").prop('checked', news.active);
+                    $("#descriptions").val(news.descriptions);
+                    $("#link").val(news.link);
+
+                    $("#seo-link").val(news.seo.url);
+                    $("#seo-title").val(news.seo.title);
+                    $("#seo-keywords").val(news.seo.keywords);
+                    $("#seo-descriptions").val(news.seo.descriptions);
+
+
+                    $("#add-main-image").trigger("click");
+                    $("#main-image-1").attr("src", "/image/" + news.main_image);
+
+                    $.each(news.gallery_images, function (index, value) {
+                        $("#add-gallery-image").trigger("click");
+                        $("#gallery-image-" + (index + 1)).attr("src", "/image/" + value);
+                    });
+
+
+                    $("#save-button").attr("onclick", "updateNews(" + JSON.stringify(news) + ")");
+
+                    modalShow()
+                },
+
+                error: function() {}
+            });
+        }
+
+        function deleteNews(id){
+            $.ajax({
+                type: 'post',
+                dataType: "json",
+                url: '/admin/news/news-deleteById',
+                cache: false,
+                data: {
+                    id: id
+                },
+
+                success: function() {
+                    $("#news-"+ id).hide("slow", function(){ $(this).remove(); })
+                },
+
+                error: function() {}
+            });
+        }
+
+
+    </script>
+
+</th:block>
+
+</body>
+</html>

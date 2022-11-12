@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/admin_layout}">
+<head>
+  <title>Shares</title>
+</head>
+<body>
+
+<div class="container" layout:fragment="content">
+  <h2 class="text-center my-3">Список акций</h2>
+
+  <button id="modal-button" onclick="formCreate(); modalShow();" class="btn btn-success">Добавить новость</button>
+
+  <table id="shares-table" class="table">
+    <thead>
+    <tr>
+      <th scope="col">Названия</th>
+      <th scope="col">Дата создания</th>
+      <th scope="col">Статус</th>
+      <th scope="col">Действие</th>
+    </tr>
+    </thead>
+
+    <tbody id="shares-content-table"></tbody>
+
+  </table>
+
+
+
+  <div class="modal fade" id="modal-window" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <!--          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>-->
+          <button id="close-modal" type="button" class="btn-close" onclick="modalHide()" aria-label="Close"></button>
+        </div>
+        <div id="modal-body" class="modal-body">
+
+          <!--                        <div th:insert="~{admin/bloks/shares_form :: shares-from}"></div>-->
+
+
+
+        </div>
+        <div class="modal-footer justify-content-center">
+          <button id="save-button" type="button" onclick="saveShares()" class="btn btn-primary btn-ml btn-lg col-4 my-2">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+
+<th:block layout:fragment="scripts">
+
+  <script src="/admin/JS/image.js"></script>
+  <script src="/admin/JS/modal.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      getShares();
+    });
+
+    function formCreate() {
+      $("#modal-body").append(
+              '<form id="shares-from" class="row m-0 p-0 needs-validation my-4" enctype="multipart/form-data" method="post">\n' +
+              '  <div class="form-group col">\n' +
+              '\n' +
+              '    <div class="row">\n' +
+              '      <label for="name" class="col-6 col-form-label">Названия акции</label>\n' +
+              '\n' +
+              '      <div class="col-sm-6">\n' +
+              '        <input type="text" id="name" name = "name" class="form-control">\n' +
+              '      </div>\n' +
+              '    </div>\n' +
+              '\n' +
+              '  </div>\n' +
+              '\n' +
+              '  <div class="form-group col">\n' +
+              '\n' +
+              '    <div class="row">\n' +
+              '      <label for="date" class="col-5 col-form-label">Дата публикации</label>\n' +
+              '\n' +
+              '      <div class="col-6">\n' +
+              '        <input type="date" id="date" name="date" class="form-control">\n' +
+              '      </div>\n' +
+              '    </div>\n' +
+              '\n' +
+              '  </div>\n' +
+              '\n' +
+              '  <div class="form-group col">\n' +
+              '\n' +
+              '    <div class="row">\n' +
+              '      <label class="col-2 form-check-label" for="active">Вкл</label>\n' +
+              '\n' +
+              '      <div class="col-2 form-check form-switch">\n' +
+              '        <input class="form-check-input" type="checkbox" role="switch" id="active" name="active" checked>\n' +
+              '      </div>\n' +
+              '    </div>\n' +
+              '\n' +
+              '  </div>\n' +
+              '\n' +
+              '  <div class="form-group row">\n' +
+              '\n' +
+              '    <div class="row mt-4">\n' +
+              '      <label for="descriptions" class="col-2 col-form-label">Описания</label>\n' +
+              '\n' +
+              '      <div class="col">\n' +
+              '        <textarea class="form-control" id="descriptions" name="descriptions" rows="3"></textarea>\n' +
+              '      </div>\n' +
+              '    </div>\n' +
+              '\n' +
+              '    <div class="row mt-4">\n' +
+              '      <label for="add-main-image" class="col-2 col-form-label pe-4">Главна картинка</label>\n' +
+              '\n' +
+              '      <div id="main-images"  class="col">\n' +
+              '\n' +
+              '        <div id="add-block-main-image" class="position-relative d-inline-block img-width my-2">\n' +
+              '          <button type="button" id="add-main-image" class="btn" style="height:100px; width:160px">\n' +
+              '            <svg width="40" height="40" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">\n' +
+              '              <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>\n' +
+              '            </svg>\n' +
+              '          </button>\n' +
+              '        </div>\n' +
+              '\n' +
+              '      </div>\n' +
+              '\n' +
+              '    </div>\n' +
+              '\n' +
+              '\n' +
+              '    <div class="row mt-4">\n' +
+              '      <label for="add-gallery-image" class="col-2 col-form-label pe-4">Галерея картинок</label>\n' +
+              '\n' +
+              '      <div class="col" id="gallery-images">\n' +
+              '\n' +
+              '        <div id="add-block-gallery-image" class="position-relative d-inline-block img-width my-2">\n' +
+              '          <!--                              <button type="button" class="position-absolute top-0 start-100 translate-middle btn">✕</button>-->\n' +
+              '          <button type="button" id="add-gallery-image" class="btn" style="height:100px; width:160px">\n' +
+              '            <svg width="40" height="40" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">\n' +
+              '              <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>\n' +
+              '            </svg>\n' +
+              '          </button>\n' +
+              '        </div>\n' +
+              '\n' +
+              '      </div>\n' +
+              '\n' +
+              '    </div>\n' +
+              '\n' +
+              '    <div class="row mt-4">\n' +
+              '      <label for="link" class="col-2 col-form-label">Ссылка на видео</label>\n' +
+              '\n' +
+              '      <div class="col">\n' +
+              '        <input type="text" id="link" name= "link" class="form-control">\n' +
+              '      </div>\n' +
+              '    </div>\n' +
+              '\n' +
+              '\n' +
+              '    <div class="row mt-4">\n' +
+              '      <label for="link" class="col-2 col-form-label">SEO блок:</label>\n' +
+              '\n' +
+              '      <div class="col">\n' +
+              '        <div class="row mt-4">\n' +
+              '          <label for="seo-link" class="col-2 col-form-label">URL</label>\n' +
+              '\n' +
+              '          <div class="col-6">\n' +
+              '            <input type="text" id="seo-link" name="seo-link" class="form-control">\n' +
+              '          </div>\n' +
+              '        </div>\n' +
+              '\n' +
+              '        <div class="row mt-4">\n' +
+              '          <label for="seo-title" class="col-2 col-form-label">Title</label>\n' +
+              '\n' +
+              '          <div class="col-6">\n' +
+              '            <input type="text" id="seo-title" name= "seo-title" class="form-control">\n' +
+              '          </div>\n' +
+              '        </div>\n' +
+              '\n' +
+              '        <div class="row mt-4">\n' +
+              '          <label for="seo-keywords" class="col-2 col-form-label">Keywords</label>\n' +
+              '\n' +
+              '          <div class="col-6">\n' +
+              '            <input type="text" id="seo-keywords" name="seo-keywords" class="form-control">\n' +
+              '          </div>\n' +
+              '        </div>\n' +
+              '\n' +
+              '        <div class="row mt-4">\n' +
+              '          <label for="seo-descriptions" class="col-2 col-form-label">Descriptions</label>\n' +
+              '\n' +
+              '          <div class="col-6">\n' +
+              '            <input type="text" id="seo-descriptions" name="seo-descriptions" class="form-control">\n' +
+              '          </div>\n' +
+              '        </div>\n' +
+              '\n' +
+              '\n' +
+              '      </div>\n' +
+              '    </div>\n' +
+              '\n' +
+              '\n' +
+              '  </div>\n' +
+              '\n' +
+              '</form>'
+      )
+
+      $("#save-button").attr("onclick", "saveShares()");
+    }
+
+    function getShares() {
+      let data = {}
+
+      $.ajax({
+        type: 'get',
+        dataType: "json",
+        url: '../admin/shares/shares-getAll',
+        cache: false,
+        data: data,
+
+        success: function (data){
+          $.each(data, function(index, shares) {
+            $("#shares-content-table").append(
+                    "            <tr id=\"shares-" + shares.id + "\">\n" +
+                    "                <td id=\"shares-name-" + shares.id + "\">" + shares.name +"</td>\n" +
+                    "                <td id=\"shares-date-" + shares.id + "\">" + shares.date + "</td>\n" +
+                    "                <td id=\"shares-active-" + shares.id + "\">" + (shares.active ? "Вкл" : "Выкл") + "</td>\n" +
+                    "                <td>\n" +
+                    "                    <input onclick=\"editshares(" + shares.id + ")\"  type=\"image\" src=\"/admin/icons/edit.svg\" height=\"18px\" width=\"18px\">\n" +
+                    "                    <input onclick=\"deleteshares(" + shares.id + ")\"  type=\"image\" src=\"/admin/icons/delete.svg\" height=\"18px\" width=\"18px\">\n" +
+                    "                </td>\n" +
+                    "            </tr>").show('slow');
+          })
+        },
+
+        error: function() {}
+      });
+    }
+
+    function saveShares(id) {
+      let formData = new FormData();
+
+      let sharesInfo = {
+        name: $("#name").val(),
+        date: $("#date").val(),
+        active: $("#active").is(":checked"),
+        descriptions: $("#descriptions").val(),
+        link: $("#link").val(),
+
+        seo: {
+          url: $("#seo-link").val(),
+          title: $("#seo-title").val(),
+          keywords: $("#seo-keywords").val(),
+          descriptions: $("#seo-descriptions").val() }
+      };
+
+      formData.append('shares_info', JSON.stringify(sharesInfo));
+
+      $.each($("[name='main-image']"), function (index, value) {
+        if(value.files[0] === undefined) {
+          return true;
+        }
+
+        formData.append('main_image', $("[name='main-image']").prop('files')[0], "main-image.jpg");
+      });
+
+
+
+      $.each($("[name='gallery-image']"), function (index, value) {
+        if(value.files[0] === undefined) {
+          return true;
+        }
+
+        formData.append('gallery_images', value.files[0], "gallery-image-" + (index+1)  + '.' + value.files[0].name.split('.')[1]);
+      });
+
+
+      $.ajax({
+        type: 'post',
+        dataType: 'json',
+        url: '../admin/shares/shares-add',
+        cache: false,
+        data: formData,
+        contentType: false,
+        processData: false,
+
+        success: function (shares) {
+
+          $("#shares-content-table").append(
+                  "            <tr id=\"shares-" + shares.id + "\">\n" +
+                  "                <td id=\"shares-name-" + shares.id + "\">" + shares.name +"</td>\n" +
+                  "                <td id=\"shares-date-" + shares.id + "\">" + shares.date + "</td>\n" +
+                  "                <td id=\"shares-active-" + shares.id + "\">" + (shares.active ? "Вкл" : "Выкл") + "</td>\n" +
+                  "                <td>\n" +
+                  "                    <input onclick=\"editshares(" + shares.id + ")\"  type=\"image\" src=\"/admin/icons/edit.svg\" height=\"18px\" width=\"18px\">\n" +
+                  "                    <input onclick=\"deleteshares(" + shares.id + ")\"  type=\"image\" src=\"/admin/icons/delete.svg\" height=\"18px\" width=\"18px\">\n" +
+                  "                </td>\n" +
+                  "            </tr>").show('slow');
+
+
+          modalHide();
+        },
+
+        error: function () {
+          console.log("Error: save shares");
+        }
+
+      });
+    }
+
+    function updateShares(shares) {
+      let formData = new FormData();
+
+      let main_image;
+      let gallery_images = [];
+
+      $.each($("[name='main-image']"), function (index, value) {
+        if(value.files[0] === undefined) {
+          main_image = shares.main_image;
+
+          return true;
+        }
+
+        main_image = {
+          id: shares.main_image.id,
+          path: "change"
+        };
+
+        formData.append('main_image', $("[name='main-image']").prop('files')[0], "main-image.jpg");
+      });
+
+      let i = 0;
+
+      $.each($("[name='gallery-image']"), function (index, value) {
+
+        if(value.files[0] === undefined) {
+          gallery_images.push(
+                  {
+                    id : null,
+                    path: $("#gallery-image-" + (index + 1)).attr('src').substring(7)
+                  }
+          );
+
+          return true;
+        }
+
+        gallery_images.push({
+          path: "change"
+        })
+
+        formData.append('gallery_images', value.files[0], "gallery-image-" + (index+1)  + '.' + value.files[0].name.split('.')[1]);
+      });
+
+      let sharesInfo = {
+        id: shares.id,
+        name: $("#name").val(),
+        date: $("#date").val(),
+        active: $("#active").is(":checked"),
+        descriptions: $("#descriptions").val(),
+        link: $("#link").val(),
+
+        seo: {
+          id: shares.seo.id,
+          url: $("#seo-link").val(),
+          title: $("#seo-title").val(),
+          keywords: $("#seo-keywords").val(),
+          descriptions: $("#seo-descriptions").val()
+        },
+
+        main_image: main_image,
+
+        gallery_images: gallery_images
+      };
+
+      formData.append('shares_info', JSON.stringify(sharesInfo));
+
+
+      $.ajax({
+        type: 'post',
+        dataType: 'json',
+        url: '../admin/shares/shares-update',
+        cache: false,
+        data: formData,
+        contentType: false,
+        processData: false,
+
+        success: function (change) {
+          $("#shares-name-" + change.id).html(change.name);
+          $("#shares-date-" + change.id).html(change.date);
+          $("#shares-active-" + change.id).html((change.active ? "Вкл" : "Выкл"));
+
+
+          modalHide();
+        },
+
+        error: function () {}
+
+      });
+
+
+
+    }
+
+    function editshares(id) {
+      $.ajax({
+        type: 'get',
+        dataType: "json",
+        url: '/admin/shares/shares-getById',
+        cache: false,
+        data: {
+          id: id
+        },
+
+        success: function(shares) {
+          formCreate();
+
+          $("#name").val(shares.name);
+          $("#date").val(shares.date);
+          $("#active").prop('checked', shares.active);
+          $("#descriptions").val(shares.descriptions);
+          $("#link").val(shares.link);
+
+          $("#seo-link").val(shares.seo.url);
+          $("#seo-title").val(shares.seo.title);
+          $("#seo-keywords").val(shares.seo.keywords);
+          $("#seo-descriptions").val(shares.seo.descriptions);
+
+
+          $("#add-main-image").trigger("click");
+          $("#main-image-1").attr("src", "/image/" + shares.main_image.path);
+
+          $.each(shares.gallery_images, function (index, value) {
+            $("#add-gallery-image").trigger("click");
+            $("#gallery-image-" + (index + 1)).attr("src", "/image/" + value.path);
+          });
+
+
+          $("#save-button").attr("onclick", "updateShares(" + JSON.stringify(shares) + ")");
+
+          modalShow()
+        },
+
+        error: function() {}
+      });
+    }
+
+    function deleteshares(id){
+      $.ajax({
+        type: 'post',
+        dataType: "json",
+        url: '/admin/shares/shares-deleteById',
+        cache: false,
+        data: {
+          id: id
+        },
+
+        success: function() {
+          $("#shares-"+ id).hide("slow", function(){ $(this).remove(); })
+        },
+
+        error: function() {}
+      });
+    }
+
+
+  </script>
+
+</th:block>
+
+</body>
+</html>

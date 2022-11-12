@@ -1,15 +1,15 @@
 package com.example.kinocms.converters;
 
-
+import com.example.kinocms.enums.FilmType;
 import com.example.kinocms.enums.Gender;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.core.convert.converter.Converter;
 
-public class GenderConverter implements Converter<String, Gender> {
+public class FilmTypeConverter implements Converter<String, FilmType> {
     @Override
-    public Gender convert(@NotNull String gender) {
+    public FilmType convert(@NotNull String filmType) {
         try {
-            return Gender.valueOf(gender.toUpperCase());
+            return FilmType.valueOf(filmType.toUpperCase());
         } catch(Exception e) {
             return null;
         }

@@ -1,11 +1,8 @@
-package com.example.kinocms.controllers;
+package com.example.kinocms.controllers.user;
 
 import com.example.kinocms.enums.Gender;
-import com.example.kinocms.models.Test;
 import com.example.kinocms.models.User;
-import com.example.kinocms.repositorys.TestRepository;
 import com.example.kinocms.repositorys.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.time.LocalDate;
 import java.util.Date;
 
 @Controller
