@@ -48,11 +48,12 @@ public class Films {
 //    @CollectionTable(name = "film_tipe", joinColumns = @JoinColumn(name = "user_id"))
 //    private Set<FilmType> film_type;
 
+
+    @ElementCollection
     @Column(name = "type")
     @Enumerated(EnumType.STRING)
-    @ElementCollection(targetClass = FilmType.class)
-    @CollectionTable(name = "film_type", joinColumns = @JoinColumn(name = "film_id"))
-    private Set <FilmType> types;
+    @CollectionTable(name = "films_types", joinColumns = @JoinColumn(name = "film_id"))
+    private Set<String> types;
 
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)

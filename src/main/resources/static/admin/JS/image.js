@@ -1,22 +1,20 @@
-function uploadMainImage(image_id) {
+function uploadMainImage() {
     let reader = new FileReader();
-    let image = $('#main-file-'+ image_id).prop('files')[0];
+    let image = $("#main-file").prop('files')[0];
 
     reader.onload = function(){
-        $("#main-image-" + image_id).attr("src", reader.result);
+        $("#main-image").attr("src", reader.result);
     }
 
     reader.readAsDataURL(image);
 }
 
 $(document).on("click", "#add-main-image", function () {
-    let image_id = $("#main-images").children().length;
-
     $("#add-block-main-image").before(
         '                        <div class="main-image-block position-relative d-inline-block img-width me-4 my-2">\n' +
-        '                            <label class="" for="main-file-'+(image_id)+'">\n' +
-        '                                <img id="main-image-'+(image_id)+'" class="rounded" src="/user/icons/default.png" width="160" height="100">\n' +
-        '                                <input id="main-file-'+(image_id)+'" type="file" name="main-image" onchange="uploadMainImage('+(image_id)+')" multiple accept="image/*" style="display:none">\n' +
+        '                            <label class="" for="main-file">\n' +
+        '                                <img id="main-image" class="rounded" src="/user/icons/default.png" width="160" height="100">\n' +
+        '                                <input id="main-file" type="file" name="main-image" onchange="uploadMainImage()" multiple accept="image/*" style="display:none">\n' +
         '                            </label>\n' +
         '                        </div>').remove();
 });

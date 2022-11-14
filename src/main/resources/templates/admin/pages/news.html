@@ -10,7 +10,7 @@
 <div class="container" layout:fragment="content">
     <h2 class="text-center my-3">Список новостей</h2>
 
-    <button id="modal-button" onclick="formCreate(); modalShow();" class="btn btn-success">Добавить новость</button>
+    <button id="modal-button" onclick="formCreate()" class="btn btn-success">Добавить новость</button>
 
     <table id="news-table" class="table">
         <thead>
@@ -204,6 +204,7 @@
             )
 
             $("#save-button").attr("onclick", "saveNews()");
+            modalShow();
         }
 
         function getNews() {
@@ -235,7 +236,7 @@
             });
         }
 
-        function saveNews(id) {
+        function saveNews() {
             let formData = new FormData();
 
             let newsInfo = {
@@ -259,7 +260,7 @@
                     return true;
                 }
 
-                formData.append('main_image', $("[name='main-image']").prop('files')[0], "main-image.jpg");
+                formData.append('main_image', $("[name='main-image']").prop('files')[0]);
             });
 
 
@@ -270,7 +271,7 @@
                 }
 
                 // formData.append('gallery_images', value.files[0], "gallery-image-" + (index+1)  + '.' + value.files[0].name.split('.')[1]);
-                formData.append('gallery_images', value.files[0], "gallery-image");
+                formData.append('gallery_images', value.files[0]);
             });
 
 
@@ -307,7 +308,7 @@
             });
         }
 
-        function updateNews(news) {
+        function updateNews(id) {
             let formData = new FormData();
 
             let main_image;
@@ -315,7 +316,7 @@
 
             $.each($("[name='main-image']"), function (index, value) {
                 if(value.files[0] === undefined) {
-                    main_image = news.main_image;
+                    main_image = $("#main-image").attr('src').substring(7);
 
                     return true;
                 }
@@ -323,7 +324,7 @@
                 main_image = "change";
 
 
-                formData.append('main_image', $("[name='main-image']").prop('files')[0], "main-image.jpg");
+                formData.append('main_image', $("[name='main-image']").prop('files')[0]);
             });
 
 
@@ -331,20 +332,21 @@
 
                 if(value.files[0] === undefined) {
                     gallery_images.push(
-                      news.gallery_images[index]
+                        $("#gallery-image-" + [value.attributes[0].value.replace(/[^0-9]/g, '')]).attr('src').substring(7)
                     );
 
                     return true;
                 }
 
+
                 gallery_images.push("change");
 
                 // formData.append('gallery_images', value.files[0], "gallery-image-" + (index+1)  + '.' + value.files[0].name.split('.')[1]);
-                formData.append('gallery_images', value.files[0], "gallery-image");
+                formData.append('gallery_images', value.files[0]);
             });
 
             let newsInfo = {
-                id: news.id,
+                id: id,
                 name: $("#name").val(),
                 date: $("#date").val(),
                 active: $("#active").is(":checked"),
@@ -352,7 +354,7 @@
                 link: $("#link").val(),
 
                 seo: {
-                    id: news.seo.id,
+                    // id: news.seo.id,
                     url: $("#seo-link").val(),
                     title: $("#seo-title").val(),
                     keywords: $("#seo-keywords").val(),
@@ -387,9 +389,6 @@
                 error: function () {}
 
             });
-
-
-
         }
 
         function editNews(id) {
@@ -418,7 +417,7 @@
 
 
                     $("#add-main-image").trigger("click");
-                    $("#main-image-1").attr("src", "/image/" + news.main_image);
+                    $("#main-image").attr("src", "/image/" + news.main_image);
 
                     $.each(news.gallery_images, function (index, value) {
                         $("#add-gallery-image").trigger("click");
@@ -426,7 +425,7 @@
                     });
 
 
-                    $("#save-button").attr("onclick", "updateNews(" + JSON.stringify(news) + ")");
+                    $("#save-button").attr("onclick", "updateNews(" + news.id + ")");
 
                     modalShow()
                 },

@@ -3,17 +3,17 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{admin/admin_layout}">
 <head>
-    <title>News</title>
+    <title>Films</title>
 </head>
 <body>
 
 <div class="container" layout:fragment="content">
-    <div class="container mb-4">
+    <div class="mb-4">
         <h2 class="text-center my-3">Список текущих фильмов</h2>
 
         <div id="films-blocks" class="col my-4">
             <figure id="add-block-film" class="figure m-2">
-                <button type="button" class="btn figure-img" onclick="addFilmBlock()" style="height: 280px; width: 230px;">
+                <button type="button" class="btn figure-img" onclick="formCreate()" style="height: 280px; width: 230px;">
                     <svg width="40" height="40" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
                         <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
                     </svg>
@@ -22,10 +22,10 @@
                 <figcaption class="figure-caption text-center">Add film</figcaption>
             </figure>
         </div>
-
     </div>
 
-    <div class="container mb-4">
+
+    <div class="mb-4">
         <h2 class="text-center my-3">Список фильмов которые скоро покажут</h2>
 
         <div class="row">
@@ -62,179 +62,198 @@
 
 <th:block layout:fragment="scripts">
 
+    <script src="/admin/JS/banners.js"></script>
     <script src="/admin/JS/image.js"></script>
     <script src="/admin/JS/modal.js"></script>
 
     <script>
         $(document).ready(function() {
-            getNews();
+            getFilms();
         });
 
         function formCreate() {
             $("#modal-body").append(
-                '<form id="news-from" class="row m-0 p-0 needs-validation my-4" enctype="multipart/form-data" method="post">\n' +
-                '  <div class="form-group col">\n' +
+                '    <form id="film-from" class="row m-0 p-0 needs-validation my-4" enctype="multipart/form-data" method="post">\n' +
                 '\n' +
-                '    <div class="row">\n' +
-                '      <label for="name" class="col-6 col-form-label">Названия новости</label>\n' +
+                '        <div class="form-group col">\n' +
                 '\n' +
-                '      <div class="col-sm-6">\n' +
-                '        <input type="text" id="name" name = "name" class="form-control">\n' +
-                '      </div>\n' +
-                '    </div>\n' +
+                '            <div class="row">\n' +
+                '                <label for="name" class="col-4 col-form-label">Названия фильма</label>\n' +
                 '\n' +
-                '  </div>\n' +
+                '                <div class="col-sm-4">\n' +
+                '                    <input type="text" id="name" name = "name" class="form-control">\n' +
+                '                </div>\n' +
+                '            </div>\n' +
                 '\n' +
-                '  <div class="form-group col">\n' +
-                '\n' +
-                '    <div class="row">\n' +
-                '      <label for="date" class="col-5 col-form-label">Дата публикации</label>\n' +
-                '\n' +
-                '      <div class="col-6">\n' +
-                '        <input type="date" id="date" name="date" class="form-control">\n' +
-                '      </div>\n' +
-                '    </div>\n' +
-                '\n' +
-                '  </div>\n' +
-                '\n' +
-                '  <div class="form-group col">\n' +
-                '\n' +
-                '    <div class="row">\n' +
-                '      <label class="col-2 form-check-label" for="active">Вкл</label>\n' +
-                '\n' +
-                '      <div class="col-2 form-check form-switch">\n' +
-                '        <input class="form-check-input" type="checkbox" role="switch" id="active" name="active" checked>\n' +
-                '      </div>\n' +
-                '    </div>\n' +
-                '\n' +
-                '  </div>\n' +
-                '\n' +
-                '  <div class="form-group row">\n' +
-                '\n' +
-                '    <div class="row mt-4">\n' +
-                '      <label for="descriptions" class="col-2 col-form-label">Описания</label>\n' +
-                '\n' +
-                '      <div class="col">\n' +
-                '        <textarea class="form-control" id="descriptions" name="descriptions" rows="3"></textarea>\n' +
-                '      </div>\n' +
-                '    </div>\n' +
-                '\n' +
-                '    <div class="row mt-4">\n' +
-                '      <label for="add-main-image" class="col-2 col-form-label pe-4">Главна картинка</label>\n' +
-                '\n' +
-                '      <div id="main-images"  class="col">\n' +
-                '\n' +
-                '        <div id="add-block-main-image" class="position-relative d-inline-block img-width my-2">\n' +
-                '          <button type="button" id="add-main-image" class="btn" style="height:100px; width:160px">\n' +
-                '            <svg width="40" height="40" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">\n' +
-                '              <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>\n' +
-                '            </svg>\n' +
-                '          </button>\n' +
                 '        </div>\n' +
                 '\n' +
-                '      </div>\n' +
+                '        <div class="form-group col">\n' +
                 '\n' +
-                '    </div>\n' +
+                '            <div class="row">\n' +
+                '                <label for="date" class="col-4 col-form-label">Дата публикации</label>\n' +
                 '\n' +
+                '                <div class="col-4">\n' +
+                '                    <input type="date" id="date" name="date" class="form-control">\n' +
+                '                </div>\n' +
+                '            </div>\n' +
                 '\n' +
-                '    <div class="row mt-4">\n' +
-                '      <label for="add-gallery-image" class="col-2 col-form-label pe-4">Галерея картинок</label>\n' +
-                '\n' +
-                '      <div class="col" id="gallery-images">\n' +
-                '\n' +
-                '        <div id="add-block-gallery-image" class="position-relative d-inline-block img-width my-2">\n' +
-                '          <!--                              <button type="button" class="position-absolute top-0 start-100 translate-middle btn">✕</button>-->\n' +
-                '          <button type="button" id="add-gallery-image" class="btn" style="height:100px; width:160px">\n' +
-                '            <svg width="40" height="40" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">\n' +
-                '              <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>\n' +
-                '            </svg>\n' +
-                '          </button>\n' +
                 '        </div>\n' +
                 '\n' +
-                '      </div>\n' +
+                '        <div class="form-group row">\n' +
                 '\n' +
-                '    </div>\n' +
+                '            <div class="row mt-4">\n' +
+                '                <label for="descriptions" class="col-2 col-form-label">Описания</label>\n' +
                 '\n' +
-                '    <div class="row mt-4">\n' +
-                '      <label for="link" class="col-2 col-form-label">Ссылка на видео</label>\n' +
+                '                <div class="col">\n' +
+                '                    <textarea class="form-control" id="descriptions" name="descriptions" rows="3"></textarea>\n' +
+                '                </div>\n' +
+                '            </div>\n' +
                 '\n' +
-                '      <div class="col">\n' +
-                '        <input type="text" id="link" name= "link" class="form-control">\n' +
-                '      </div>\n' +
-                '    </div>\n' +
+                '            <div class="row mt-4">\n' +
+                '                <label for="add-main-image" class="col-2 col-form-label pe-4">Главна картинка</label>\n' +
                 '\n' +
+                '                <div id="main-images"  class="col">\n' +
                 '\n' +
-                '    <div class="row mt-4">\n' +
-                '      <label for="link" class="col-2 col-form-label">SEO блок:</label>\n' +
+                '                    <div id="add-block-main-image" class="position-relative d-inline-block img-width my-2">\n' +
+                '                        <button type="button" id="add-main-image" class="btn" style="height:100px; width:160px">\n' +
+                '                            <svg width="40" height="40" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">\n' +
+                '                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>\n' +
+                '                            </svg>\n' +
+                '                        </button>\n' +
+                '                    </div>\n' +
                 '\n' +
-                '      <div class="col">\n' +
-                '        <div class="row mt-4">\n' +
-                '          <label for="seo-link" class="col-2 col-form-label">URL</label>\n' +
+                '                </div>\n' +
                 '\n' +
-                '          <div class="col-6">\n' +
-                '            <input type="text" id="seo-link" name="seo-link" class="form-control">\n' +
-                '          </div>\n' +
-                '        </div>\n' +
-                '\n' +
-                '        <div class="row mt-4">\n' +
-                '          <label for="seo-title" class="col-2 col-form-label">Title</label>\n' +
-                '\n' +
-                '          <div class="col-6">\n' +
-                '            <input type="text" id="seo-title" name= "seo-title" class="form-control">\n' +
-                '          </div>\n' +
-                '        </div>\n' +
-                '\n' +
-                '        <div class="row mt-4">\n' +
-                '          <label for="seo-keywords" class="col-2 col-form-label">Keywords</label>\n' +
-                '\n' +
-                '          <div class="col-6">\n' +
-                '            <input type="text" id="seo-keywords" name="seo-keywords" class="form-control">\n' +
-                '          </div>\n' +
-                '        </div>\n' +
-                '\n' +
-                '        <div class="row mt-4">\n' +
-                '          <label for="seo-descriptions" class="col-2 col-form-label">Descriptions</label>\n' +
-                '\n' +
-                '          <div class="col-6">\n' +
-                '            <input type="text" id="seo-descriptions" name="seo-descriptions" class="form-control">\n' +
-                '          </div>\n' +
-                '        </div>\n' +
+                '            </div>\n' +
                 '\n' +
                 '\n' +
-                '      </div>\n' +
-                '    </div>\n' +
+                '            <div class="row mt-4">\n' +
+                '                <label for="add-gallery-image" class="col-2 col-form-label pe-4">Галерея картинок</label>\n' +
+                '\n' +
+                '                <div class="col" id="gallery-images">\n' +
+                '                    \n' +
+                '\n' +
+                '                    <div id="add-block-gallery-image" class="position-relative d-inline-block img-width my-2">\n' +
+                '                        <!--                              <button type="button" class="position-absolute top-0 start-100 translate-middle btn">✕</button>-->\n' +
+                '                        <button type="button" id="add-gallery-image" class="btn" style="height:100px; width:160px">\n' +
+                '                            <svg width="40" height="40" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">\n' +
+                '                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>\n' +
+                '                            </svg>\n' +
+                '                        </button>\n' +
+                '                    </div>\n' +
+                '\n' +
+                '                </div>\n' +
+                '\n' +
+                '            </div>\n' +
                 '\n' +
                 '\n' +
-                '  </div>\n' +
                 '\n' +
-                '</form>'
+                '            <div class="row mt-4">\n' +
+                '                <label for="link" class="col-2 col-form-label">Ссылка на трейлер</label>\n' +
+                '\n' +
+                '                <div class="col">\n' +
+                '                    <input type="text" id="link" name= "link" class="form-control">\n' +
+                '                </div>\n' +
+                '            </div>\n' +
+                '\n' +
+                '            <div class="row mt-4">\n' +
+                '\n' +
+                '                <label class="col-2 col-form-label pe-4">Тип кино</label>\n' +
+                '\n' +
+                '                <div class="col">\n' +
+                '                    <div class="form-check form-check-inline">\n' +
+                '                        <input class="form-check-input" name="film_type" type="checkbox" id="2d" value="2D">\n' +
+                '                        <label class="form-check-label" for="2d">2D</label>\n' +
+                '                    </div>\n' +
+                '                    <div class="form-check form-check-inline">\n' +
+                '                        <input class="form-check-input" name="film_type" type="checkbox" id="3d" value="3D">\n' +
+                '                        <label class="form-check-label" for="3d">3D</label>\n' +
+                '                    </div>\n' +
+                '                    <div class="form-check form-check-inline">\n' +
+                '                        <input class="form-check-input" name="film_type" type="checkbox" id="imax" value="imax">\n' +
+                '                        <label class="form-check-label" for="imax">IMAX</label>\n' +
+                '                    </div>\n' +
+                '                </div>\n' +
+                '\n' +
+                '            </div>\n' +
+                '\n' +
+                '\n' +
+                '            <div class="row mt-4">\n' +
+                '                <label for="link" class="col-2 col-form-label">SEO блок:</label>\n' +
+                '\n' +
+                '\n' +
+                '                <div class="col">\n' +
+                '                    <div class="row mt-4">\n' +
+                '                        <label for="seo-link" class="col-2 col-form-label">URL</label>\n' +
+                '\n' +
+                '                        <div class="col-6">\n' +
+                '                            <input type="text" id="seo-link" name="seo-link" class="form-control">\n' +
+                '                        </div>\n' +
+                '                    </div>\n' +
+                '\n' +
+                '                    <div class="row mt-4">\n' +
+                '                        <label for="seo-title" class="col-2 col-form-label">Title</label>\n' +
+                '\n' +
+                '                        <div class="col-6">\n' +
+                '                            <input type="text" id="seo-title" name= "seo-title" class="form-control">\n' +
+                '                        </div>\n' +
+                '                    </div>\n' +
+                '\n' +
+                '                    <div class="row mt-4">\n' +
+                '                        <label for="seo-keywords" class="col-2 col-form-label">Keywords</label>\n' +
+                '\n' +
+                '                        <div class="col-6">\n' +
+                '                            <input type="text" id="seo-keywords" name="seo-keywords" class="form-control">\n' +
+                '                        </div>\n' +
+                '                    </div>\n' +
+                '\n' +
+                '                    <div class="row mt-4">\n' +
+                '                        <label for="seo-descriptions" class="col-2 col-form-label">Descriptions</label>\n' +
+                '\n' +
+                '                        <div class="col-6">\n' +
+                '                            <input type="text" id="seo-descriptions" name="seo-descriptions" class="form-control">\n' +
+                '                        </div>\n' +
+                '                    </div>\n' +
+                '\n' +
+                '\n' +
+                '                    </div>\n' +
+                '                </div>\n' +
+                '            </div>\n' +
+                '\n' +
+                '\n' +
+                '    </form>'
             )
 
-            $("#save-button").attr("onclick", "saveNews()");
+            $("#save-button").attr("onclick", "saveFilm()");
+            modalShow();
         }
 
-        function getNews() {
+        function getFilms() {
             let data = {}
 
             $.ajax({
                 type: 'get',
                 dataType: "json",
-                url: '../admin/news/news-getAll',
+                url: '../admin/films/films-getAll',
                 cache: false,
                 data: data,
 
                 success: function (data){
-                    $.each(data, function(index, news) {
-                        $("#news-content-table").append(
-                            "            <tr id=\"news-" + news.id + "\">\n" +
-                            "                <td id=\"news-name-" + news.id + "\">" + news.name +"</td>\n" +
-                            "                <td id=\"news-date-" + news.id + "\">" + news.date + "</td>\n" +
-                            "                <td id=\"news-active-" + news.id + "\">" + (news.active ? "Вкл" : "Выкл") + "</td>\n" +
-                            "                <td>\n" +
-                            "                    <input onclick=\"editNews(" + news.id + ")\"  type=\"image\" src=\"/admin/icons/edit.svg\" height=\"18px\" width=\"18px\">\n" +
-                            "                    <input onclick=\"deleteNews(" + news.id + ")\"  type=\"image\" src=\"/admin/icons/delete.svg\" height=\"18px\" width=\"18px\">\n" +
-                            "                </td>\n" +
-                            "            </tr>").show('slow');
+                    $.each(data, function(index, film) {
+                        $("#add-block-film").before(
+                            '        <div id="film-block-' + film.id + '" class="image-block position-relative d-inline-block img-width me-4 my-2" name="film-block">\n' +
+                            '            <button type="button" onclick="deleteFilm(' + film.id + ')" class="position-absolute top-0 start-100 translate-middle btn" style="border-radius: 50%; background: rgba(192, 192, 192, 0.5);">\n' +
+                            '                <img src="/admin/icons/cancel.svg" height="15" width="15">                            </button>\n' +
+                            '\n' +
+                            '            <figure onclick="editFilm('+ film.id +')" class="figure">\n' +
+                            '                <img\n' +
+                            '                        id="image-block-' + film.id + '"' +
+                            '                        src="/image/'+ film.main_image +'"\n' +
+                            '                        class="figure-img img-fluid rounded" alt="..." style="height: 280px; width: 230px;">\n' +
+                            '                <figcaption class="figure-caption text-center">'+ film.name +'</figcaption>\n' +
+                            '            </figure>\n' +
+                            '        </div>'
+                        )
                     })
                 },
 
@@ -242,13 +261,23 @@
             });
         }
 
-        function saveNews(id) {
+        function saveFilm() {
             let formData = new FormData();
+            let types = []
 
-            let newsInfo = {
+            $( "[name = 'film_type']" ).each(function(index, value) {
+                if ($( this ).is(":checked") ){
+                    types.push($(this).val());
+                }
+            });
+
+
+            let filmInfo = {
                 name: $("#name").val(),
                 date: $("#date").val(),
                 active: $("#active").is(":checked"),
+                types: types,
+
                 descriptions: $("#descriptions").val(),
                 link: $("#link").val(),
 
@@ -259,14 +288,14 @@
                     descriptions: $("#seo-descriptions").val() }
             };
 
-            formData.append('news_info', JSON.stringify(newsInfo));
+            formData.append('film_info', JSON.stringify(filmInfo));
 
             $.each($("[name='main-image']"), function (index, value) {
                 if(value.files[0] === undefined) {
                     return true;
                 }
 
-                formData.append('main_image', $("[name='main-image']").prop('files')[0], "main-image.jpg");
+                formData.append('main_image', $("[name='main-image']").prop('files')[0]);
             });
 
 
@@ -276,44 +305,50 @@
                     return true;
                 }
 
-                formData.append('gallery_images', value.files[0], "gallery-image-" + (index+1)  + '.' + value.files[0].name.split('.')[1]);
+                formData.append('gallery_images', value.files[0]);
             });
 
 
             $.ajax({
                 type: 'post',
                 dataType: 'json',
-                url: '../admin/news/news-add',
+                url: '../admin/films/films-add',
                 cache: false,
                 data: formData,
                 contentType: false,
                 processData: false,
 
-                success: function (news) {
+                success: function (film) {
 
                     $("#news-content-table").append(
-                        "            <tr id=\"news-" + news.id + "\">\n" +
-                        "                <td id=\"news-name-" + news.id + "\">" + news.name +"</td>\n" +
-                        "                <td id=\"news-date-" + news.id + "\">" + news.date + "</td>\n" +
-                        "                <td id=\"news-active-" + news.id + "\">" + (news.active ? "Вкл" : "Выкл") + "</td>\n" +
-                        "                <td>\n" +
-                        "                    <input onclick=\"editNews(" + news.id + ")\"  type=\"image\" src=\"/admin/icons/edit.svg\" height=\"18px\" width=\"18px\">\n" +
-                        "                    <input onclick=\"deleteNews(" + news.id + ")\"  type=\"image\" src=\"/admin/icons/delete.svg\" height=\"18px\" width=\"18px\">\n" +
-                        "                </td>\n" +
-                        "            </tr>").show('slow');
+                            $("#add-block-film").before(
+                                '        <div id="film-block-' + film.id + '" class="image-block position-relative d-inline-block img-width me-4 my-2" name="film-block">\n' +
+                                '            <button type="button" onclick="deleteFilm(' + film.id + ')" class="position-absolute top-0 start-100 translate-middle btn" style="border-radius: 50%; background: rgba(192, 192, 192, 0.5);">\n' +
+                                '                <img src="/admin/icons/cancel.svg" height="15" width="15">                            </button>\n' +
+                                '\n' +
+                                '            <figure onclick="editFilm('+ film.id +')" class="figure">\n' +
+                                '                <img\n' +
+                                '                        id="image-block-' + film.id + '"' +
+                                '                        src="/image/'+ film.main_image +'"\n' +
+                                '                        class="figure-img img-fluid rounded" alt="..." style="height: 280px; width: 230px;">\n' +
+                                '                <figcaption class="figure-caption text-center">'+ film.name +'</figcaption>\n' +
+                                '            </figure>\n' +
+                                '        </div>'
+                            )
+                        ).show('slow');
 
 
                     modalHide();
                 },
 
                 error: function () {
-                    console.log("Error: save news");
+                    console.log("Error: save film");
                 }
 
             });
         }
 
-        function updateNews(news) {
+        function updateFilm(id) {
             let formData = new FormData();
 
             let main_image;
@@ -321,43 +356,37 @@
 
             $.each($("[name='main-image']"), function (index, value) {
                 if(value.files[0] === undefined) {
-                    main_image = news.main_image;
+                    main_image = $("#main-image").attr('src').substring(7);
 
                     return true;
                 }
 
-                main_image = {
-                    id: news.main_image.id,
-                    path: "change"
-                };
+                main_image = "change";
 
-                formData.append('main_image', $("[name='main-image']").prop('files')[0], "main-image.jpg");
+
+                formData.append('main_image', $("[name='main-image']").prop('files')[0]);
             });
 
-            let i = 0;
 
             $.each($("[name='gallery-image']"), function (index, value) {
 
                 if(value.files[0] === undefined) {
                     gallery_images.push(
-                        {
-                            id : null,
-                            path: $("#gallery-image-" + (index + 1)).attr('src').substring(7)
-                        }
+                        $("#gallery-image-" + [value.attributes[0].value.replace(/[^0-9]/g, '')]).attr('src').substring(7)
                     );
 
                     return true;
                 }
 
-                gallery_images.push({
-                    path: "change"
-                })
 
-                formData.append('gallery_images', value.files[0], "gallery-image-" + (index+1)  + '.' + value.files[0].name.split('.')[1]);
+                gallery_images.push("change");
+
+                // formData.append('gallery_images', value.files[0], "gallery-image-" + (index+1)  + '.' + value.files[0].name.split('.')[1]);
+                formData.append('gallery_images', value.files[0]);
             });
 
-            let newsInfo = {
-                id: news.id,
+            let filmInfo = {
+                id: id,
                 name: $("#name").val(),
                 date: $("#date").val(),
                 active: $("#active").is(":checked"),
@@ -365,7 +394,7 @@
                 link: $("#link").val(),
 
                 seo: {
-                    id: news.seo.id,
+                    // id: news.seo.id,
                     url: $("#seo-link").val(),
                     title: $("#seo-title").val(),
                     keywords: $("#seo-keywords").val(),
@@ -377,70 +406,67 @@
                 gallery_images: gallery_images
             };
 
-            formData.append('news_info', JSON.stringify(newsInfo));
+            formData.append('film_info', JSON.stringify(filmInfo));
 
 
             $.ajax({
                 type: 'post',
                 dataType: 'json',
-                url: '../admin/news/news-update',
+                url: '../admin/films/films-update',
                 cache: false,
                 data: formData,
                 contentType: false,
                 processData: false,
 
                 success: function (change) {
-                    $("#news-name-" + change.id).html(change.name);
-                    $("#news-date-" + change.id).html(change.date);
-                    $("#news-active-" + change.id).html((change.active ? "Вкл" : "Выкл"));
+                    // $("#news-name-" + change.id).html(change.name);
+                    // $("#news-date-" + change.id).html(change.date);
+                    // $("#news-active-" + change.id).html((change.active ? "Вкл" : "Выкл"));
 
+                    // #("#image-block-" + change.id).attr('src', "/image/" + change.main_image)
+                    $("#image-block-" + change.id).attr("src", "/image/" + change.main_image);
                     modalHide();
                 },
 
                 error: function () {}
 
             });
-
-
-
         }
 
-        function editNews(id) {
+        function editFilm(id) {
             $.ajax({
                 type: 'get',
                 dataType: "json",
-                url: '/admin/news/news-getById',
+                url: '/admin/films/films-getById',
                 cache: false,
                 data: {
                     id: id
                 },
 
-                success: function(news) {
+                success: function(film) {
                     formCreate();
 
-                    $("#name").val(news.name);
-                    $("#date").val(news.date),
-                        $("#active").prop('checked', news.active);
-                    $("#descriptions").val(news.descriptions);
-                    $("#link").val(news.link);
+                    $("#name").val(film.name);
+                    $("#date").val(film.date);
 
-                    $("#seo-link").val(news.seo.url);
-                    $("#seo-title").val(news.seo.title);
-                    $("#seo-keywords").val(news.seo.keywords);
-                    $("#seo-descriptions").val(news.seo.descriptions);
+                    $("#descriptions").val(film.descriptions);
+                    $("#link").val(film.link);
+
+                    $("#seo-link").val(film.seo.url);
+                    $("#seo-title").val(film.seo.title);
+                    $("#seo-keywords").val(film.seo.keywords);
+                    $("#seo-descriptions").val(film.seo.descriptions);
 
 
                     $("#add-main-image").trigger("click");
-                    $("#main-image-1").attr("src", "/image/" + news.main_image.path);
+                    $("#main-image").attr("src", "/image/" + film.main_image);
 
-                    $.each(news.gallery_images, function (index, value) {
+                    $.each(film.gallery_images, function (index, value) {
                         $("#add-gallery-image").trigger("click");
-                        $("#gallery-image-" + (index + 1)).attr("src", "/image/" + value.path);
+                        $("#gallery-image-" + (index + 1)).attr("src", "/image/" + value);
                     });
 
-
-                    $("#save-button").attr("onclick", "updateNews(" + JSON.stringify(news) + ")");
-
+                    $("#save-button").attr("onclick", "updateFilm(" + film.id + ")");
                     modalShow()
                 },
 
@@ -448,18 +474,18 @@
             });
         }
 
-        function deleteNews(id){
+        function deleteFilm(id){
             $.ajax({
                 type: 'post',
                 dataType: "json",
-                url: '/admin/news/news-deleteById',
+                url: '/admin/films/films-deleteById',
                 cache: false,
                 data: {
                     id: id
                 },
 
                 success: function() {
-                    $("#news-"+ id).hide("slow", function(){ $(this).remove(); })
+                    $("#film-block-"+ id).hide("slow", function(){ $(this).remove(); })
                 },
 
                 error: function() {}
@@ -468,6 +494,7 @@
 
 
     </script>
+
 
 </th:block>
 

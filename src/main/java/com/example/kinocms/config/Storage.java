@@ -57,13 +57,10 @@ public class Storage {
     }
 
     public List<String> save(String folderPath, MultipartFile[] files) {
-        List<String> paths;
 
-        paths = Arrays.stream(files).map(
+    return Arrays.stream(files).map(
                 file -> save(folderPath, file)
         ).toList();
-
-        return paths;
     }
 
     public void delete(String folderPath) {

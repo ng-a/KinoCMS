@@ -18,13 +18,13 @@ public class BannerNews {
     private Long id;
 
     @Column
+    private int speed;
+
+    @Column
     private Boolean active;
 
     @Column
     private String url;
-
-    @Column
-    private int speed;
 
     @Column
     private String image;

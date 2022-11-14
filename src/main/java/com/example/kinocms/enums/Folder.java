@@ -6,10 +6,9 @@ public enum Folder {
 
     BANNERS("banners"),
     FILMS("films"),
-
-
     NEWS("news"),
     SHARES("shares");
+
 
 
     String folder;
